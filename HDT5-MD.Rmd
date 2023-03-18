@@ -1,0 +1,91 @@
+---
+title: "HDT5"
+author: "Alejandra Guzman, Jorge Caballeros, Mariana David"
+date: "2023-03-17"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, include=FALSE}
+## Librerias utilizadas
+library(e1071)
+library(caret)
+```
+
+```{r}
+
+
+library(caret)
+library(e1071)
+
+data <- read.csv("train.csv")
+
+# Separando data de entrenamiento y prueba
+set.seed(456)
+train_index <- createDataPartition(data$SalePrice, p = 0.7, list = FALSE)
+train_data <- data[train_index, ]
+test_data <- data[-train_index, ]
+
+# Seleccionando variables predictoras y variable objetivo
+predictors <- c("GrLivArea", "YearBuilt", "OverallQual", "GarageCars", "TotalBsmtSF", "FullBath", "Fireplaces", "BsmtFinSF1")
+response <- "SalePrice"
+
+# Ajustando modelo Naive Bayes usando el conjunto de entrenamiento
+nb_model <- naiveBayes(train_data[, predictors], train_data[, response])
+
+# Haciendo predicciones en el conjunto de prueba usando el modelo ajustado
+nb_predictions <- predict(nb_model, test_data[, predictors])
+nb_predictions_num <- as.numeric(nb_predictions)
+test_data_response_num <- as.numeric(test_data[, response])
+
+# Evaluando el rendimiento del modelo
+mse <- mean((nb_predictions_num - test_data_response_num)^2)
+mae <- mean(abs(nb_predictions_num - test_data_response_num))
+rsq <- cor(nb_predictions_num, test_data_response_num)^2
+
+print(paste0("MSE: ", round(mse, 2)))
+print(paste0("MAE: ", round(mae, 2)))
+print(paste0("R-squared: ", round(rsq, 2)))
+
+
+
+
+
+```
+
+El valor de R-squared varía de 0 a 1, siendo 1 la mejor puntuación posible. En este caso, el valor de R-squared es 0.52, lo que indica que el modelo no es muy bueno para explicar la variabilidad en la variable de respuesta. Al igual en este caso, el valor de MAE también es alto, lo que indica que el modelo no es muy preciso en la predicción de la variable de respuesta.
+y por ultimo el valor de MSE obtenido es alto, lo que indica que el modelo no es muy preciso en la prediccion de la variable respuesta.
+
+```{r}
+# Cargar los paquetes necesarios
+library(e1071)
+library(caret)
+
+# Leer los datos
+data <- read.csv("train.csv")
+
+# Crear la variable de respuesta categorica basada en los cuartiles
+data$PriceCategory <- cut(data$SalePrice, quantile(data$SalePrice, c(0, 0.25, 0.75, 1)), labels = c("barata", "media", "cara"))
+
+# Separar los datos de entrenamiento y prueba
+set.seed(456)
+trainIndex <- createDataPartition(data$PriceCategory, p = 0.7, list = FALSE)
+train_data <- data[trainIndex, ]
+test_data <- data[-trainIndex, ]
+
+# Seleccionar las variables predictoras
+predictors <- c("GrLivArea", "YearBuilt", "OverallQual", "GarageCars", "TotalBsmtSF", "FullBath", "Fireplaces", "BsmtFinSF1")
+
+# Ajustar un modelo SVM usando el conjunto de entrenamiento
+svm_model <- svm(PriceCategory ~ ., data = train_data[, c(predictors, "PriceCategory")], kernel = "linear")
+
+# Hacer predicciones en el conjunto de prueba usando el modelo ajustado
+svm_predictions <- predict(svm_model, newdata = test_data[, predictors])
+
+# Evaluar el rendimiento del modelo
+confusionMatrix(svm_predictions, test_data$PriceCategory)
+```
+
