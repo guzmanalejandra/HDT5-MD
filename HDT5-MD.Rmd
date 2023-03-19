@@ -90,9 +90,7 @@ confusionMatrix(svm_predictions, test_data$PriceCategory)
 ```
 
 ## 8. Analice el modelo. ¿Cree que pueda estar sobre ajustado?
-```{r}
-
-```
+Al tener un Acurrancy alto, podemos decir que el modelo si puede estar sobre ajustado ya que al medir la precision del modelo y las tecnicas de validacion cruzada vemos que es o mas bien contiene precisiones con valores altos, dudando de la evaluacion correcta del rendimiento del modelo 
 
 ## 9. Haga un modelo usando validación cruzada, compare los resultados de este con los del modelo anterior. ¿Cuál funcionó mejor?
 ```{r}
