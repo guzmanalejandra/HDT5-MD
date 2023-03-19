@@ -89,3 +89,35 @@ svm_predictions <- predict(svm_model, newdata = test_data[, predictors])
 confusionMatrix(svm_predictions, test_data$PriceCategory)
 ```
 
+## 8. Analice el modelo. ¿Cree que pueda estar sobre ajustado?
+```{r}
+
+```
+
+## 9. Haga un modelo usando validación cruzada, compare los resultados de este con los del modelo anterior. ¿Cuál funcionó mejor?
+```{r}
+# Convertir variable respuesta a factor
+train_data$SalePrice <- factor(train_data$SalePrice)
+
+# Dividir en conjunto de entrenamiento y prueba
+set.seed(123)
+train_index <- sample(nrow(train_data), round(0.7 * nrow(train_data)))
+train_data_train <- train_data[train_index, ]
+train_data_test <- train_data[-train_index, ]
+
+# Entrenar modelo Naive Bayes
+library(e1071)
+nb_model <- naiveBayes(SalePrice ~ ., data = train_data_train)
+
+# Realizar predicciones sobre conjunto de prueba
+predictions <- predict(nb_model, train_data_test)
+head(predictions, 5)
+
+# Calcular matriz de confusión
+library(caret)
+confusionMatrix(predictions, train_data_test$SalePrice)$table[1:5, ]
+```
+
+## 10. Compare la eficiencia del algoritmo con el resultado obtenido con el árbol de decisión (el de clasificación) y el modelo de random forest que hizo en la hoja pasada. ¿Cuál es mejor para predecir? ¿Cuál se demoró más en procesar?
+En comparacion con el algortimo de clasificacion y de naive bayes, el arbol de desicion es mejor en cuanto prediccion de los datos.
+Asimismo, con el tiempo naive bayes podemos decir que es un poco mas rapido que la validacion cruzada aunque tambien puede estar sujeto a diversas variantes que pueden cambiar como la cantidad de data en general o la que esta siendo entrenada, entre otros.
