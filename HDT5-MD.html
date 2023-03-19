@@ -459,6 +459,11 @@ confusionMatrix(svm_predictions, test_data$PriceCategory)</code></pre>
 ## Balanced Accuracy           0.8700       0.8347      0.8906</code></pre>
 <div id="analice-el-modelo.-cree-que-pueda-estar-sobre-ajustado" class="section level2">
 <h2>8. Analice el modelo. ¿Cree que pueda estar sobre ajustado?</h2>
+<p>Al tener un Acurrancy alto, podemos decir que el modelo si puede
+estar sobre ajustado ya que al medir la precision del modelo y las
+tecnicas de validacion cruzada vemos que es o mas bien contiene
+precisiones con valores altos, dudando de la evaluacion correcta del
+rendimiento del modelo</p>
 </div>
 <div id="haga-un-modelo-usando-validación-cruzada-compare-los-resultados-de-este-con-los-del-modelo-anterior.-cuál-funcionó-mejor" class="section level2">
 <h2>9. Haga un modelo usando validación cruzada, compare los resultados
@@ -897,6 +902,18 @@ confusionMatrix(predictions, train_data_test$SalePrice)$table[1:5, ]</code></pre
 ##      39300      0      0
 ##      40000      0      0
 ##      52000      0      0</code></pre>
+</div>
+<div id="compare-la-eficiencia-del-algoritmo-con-el-resultado-obtenido-con-el-árbol-de-decisión-el-de-clasificación-y-el-modelo-de-random-forest-que-hizo-en-la-hoja-pasada.-cuál-es-mejor-para-predecir-cuál-se-demoró-más-en-procesar" class="section level2">
+<h2>10. Compare la eficiencia del algoritmo con el resultado obtenido
+con el árbol de decisión (el de clasificación) y el modelo de random
+forest que hizo en la hoja pasada. ¿Cuál es mejor para predecir? ¿Cuál
+se demoró más en procesar?</h2>
+<p>En comparacion con el algortimo de clasificacion y de naive bayes, el
+arbol de desicion es mejor en cuanto prediccion de los datos. Asimismo,
+con el tiempo naive bayes podemos decir que es un poco mas rapido que la
+validacion cruzada aunque tambien puede estar sujeto a diversas
+variantes que pueden cambiar como la cantidad de data en general o la
+que esta siendo entrenada, entre otros.</p>
 </div>
 
 
